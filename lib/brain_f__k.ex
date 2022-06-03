@@ -104,8 +104,10 @@ defmodule BrainF__k do
   end
 
   defp f__k_(?,, i, d) do
-    [xx] = IO.read(1)
-    |> to_charlist()
+    [xx] =
+      IO.read(1)
+      |> to_charlist()
+
     {forward(i), store(d, xx)}
   end
 
