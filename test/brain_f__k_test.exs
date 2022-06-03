@@ -55,4 +55,14 @@ defmodule BrainF__kTest do
     > + .                   print '!'
     """
   end
+
+  test "input" do
+    assert capture_io(
+             <<"a", "b", "c">>,
+             fn ->
+               ',>,>,.<.<.'
+               |> BrainF__k.f__k()
+             end
+           ) == "cba"
+  end
 end
