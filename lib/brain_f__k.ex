@@ -118,5 +118,5 @@ defmodule BrainF__k do
     {forward(code), store(data, xx)}
   end
 
-  defp f__k_(_, i, d), do: {forward(i), d}
+  defp f__k_(_, code, data), do: {forward(code), data}
 end
