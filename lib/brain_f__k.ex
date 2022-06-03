@@ -49,6 +49,8 @@ defmodule BrainF__k do
     end
   end
 
+  @max_ops 1_000_000
+
   @doc """
   Runs `code` of type `t:list/0` of code points using the Brain F**k virtual machine.
   """
@@ -59,7 +61,7 @@ defmodule BrainF__k do
   def f__k(code, data, ops) do
     {code, data} = f__k_(fetch(code), code, data)
     ops = ops + 1
-    if ops == 1_000_000, do: {:error, code, data, ops}, else: f__k(code, data, ops)
+    if ops == @max_ops, do: {:error, code, data, ops}, else: f__k(code, data, ops)
   end
 
   defp f__k_(?<, code, data), do: {forward(code), reverse(data)}
