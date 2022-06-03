@@ -65,4 +65,8 @@ defmodule BrainF__kTest do
              end
            ) == "cba"
   end
+
+  test "error" do
+    {:error, _, _, _} = BrainF__k.f__k('+[]')
+  end
 end
