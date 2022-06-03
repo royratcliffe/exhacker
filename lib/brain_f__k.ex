@@ -1,4 +1,8 @@
 defmodule BrainF__k do
+  @moduledoc """
+  Implements the foul-mouthed Brain F**k interpreter by HackerRank.
+  """
+
   @type tape :: {list(), list()}
 
   @spec fetch(tape()) :: any
@@ -14,7 +18,8 @@ defmodule BrainF__k do
   def reverse({[h | t0], t}), do: {t0, [h | t]}
 
   @doc """
-  Forwards by one, extending the tape as necessary with a given default.
+  Forwards by one, extending the tape as necessary with a given default. The old
+  head becomes the new reverse head ready for a subsequent reverse.
   """
   @spec forward_inf(tape(), any) :: tape()
   def forward_inf({t, [h0]}, h), do: {[h0 | t], [h]}
@@ -44,66 +49,69 @@ defmodule BrainF__k do
     end
   end
 
-  def f__k(i), do: f__k({[], i}, {[], [0]}, 0)
+  @doc """
+  Runs `code` of type `t:list/0` of code points using the Brain F**k virtual machine.
+  """
+  def f__k(code), do: f__k({[], code}, {[], [0]}, 0)
 
   def f__k({code, []}, data, ops), do: {:ok, {code, []}, data, ops}
 
-  def f__k(i, d, x) do
-    {i, d} = f__k_(fetch(i), i, d)
-    x = x + 1
-    if x == 1_000_000, do: {:error, i, d, x}, else: f__k(i, d, x)
+  def f__k(code, data, ops) do
+    {code, data} = f__k_(fetch(code), code, data)
+    ops = ops + 1
+    if ops == 1_000_000, do: {:error, code, data, ops}, else: f__k(code, data, ops)
   end
 
-  defp f__k_(?<, i, d), do: {forward(i), reverse(d)}
-  defp f__k_(?>, i, d), do: {forward(i), forward_inf(d, 0)}
+  defp f__k_(?<, code, data), do: {forward(code), reverse(data)}
+  defp f__k_(?>, code, data), do: {forward(code), forward_inf(data, 0)}
 
-  defp f__k_(?[, i, d) do
-    {case fetch(d) do
-       0 -> forward(i, ?])
-       _ -> forward(i)
-     end, d}
+  defp f__k_(?[, code, data) do
+    {case fetch(data) do
+       0 -> forward(code, ?])
+       _ -> forward(code)
+     end, data}
   end
 
-  defp f__k_(?], i, d) do
-    {case fetch(d) do
-       0 -> forward(i)
-       _ -> reverse(i, ?[)
-     end, d}
+  defp f__k_(?], code, data) do
+    {case fetch(data) do
+       0 -> forward(code)
+       _ -> reverse(code, ?[)
+     end, data}
   end
 
-  defp f__k_(?+, i, d) do
-    {forward(i),
+  defp f__k_(?+, code, data) do
+    {forward(code),
      store(
-       d,
-       case fetch(d) do
+       data,
+       case fetch(data) do
          255 -> 0
-         x -> x + 1
+         xx -> xx + 1
        end
      )}
   end
 
-  defp f__k_(?-, i, d) do
-    {forward(i),
+  defp f__k_(?-, code, data) do
+    {forward(code),
      store(
-       d,
-       case fetch(d) do
+       data,
+       case fetch(data) do
          0 -> 255
-         x -> x - 1
+         xx -> xx - 1
        end
      )}
   end
 
-  defp f__k_(?., i, d) do
-    :ok = IO.write(to_string([fetch(d)]))
-    {forward(i), d}
+  defp f__k_(?., code, data) do
+    :ok = IO.write(to_string([fetch(data)]))
+    {forward(code), data}
   end
 
-  defp f__k_(?,, i, d) do
+  defp f__k_(?,, code, data) do
     [xx] =
       IO.read(1)
       |> to_charlist()
 
-    {forward(i), store(d, xx)}
+    {forward(code), store(data, xx)}
   end
 
   defp f__k_(_, i, d), do: {forward(i), d}
