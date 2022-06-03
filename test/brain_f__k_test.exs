@@ -2,6 +2,8 @@ defmodule BrainF__kTest do
   use ExUnit.Case
   doctest BrainF__k
 
+  import ExUnit.CaptureIO
+
   test "fetches head" do
     assert BrainF__k.fetch({[], [:a, :b]}) == :a
 
@@ -24,8 +26,9 @@ defmodule BrainF__kTest do
   end
 
   test "hello world" do
-    {_, _, x} = BrainF__k.f__k(to_charlist(hello_world()))
-    assert x == 3438
+    assert capture_io(fn ->
+             BrainF__k.f__k(to_charlist(hello_world()))
+           end) == "Hello World!"
   end
 
   def hello_world do
