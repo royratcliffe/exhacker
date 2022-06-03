@@ -49,7 +49,7 @@ defmodule BrainF__k do
     end
   end
 
-  @max_ops 1_000_000
+  @max_ops 100_000
 
   @doc """
   Runs `code` of type `t:list/0` of code points using the Brain F**k virtual machine.
