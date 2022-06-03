@@ -102,7 +102,11 @@ defmodule BrainF__k do
   end
 
   defp f__k_(?., code, data) do
-    :ok = IO.write(to_string([fetch(data)]))
+    :ok =
+      [fetch(data)]
+      |> to_string()
+      |> IO.write()
+
     {forward(code), data}
   end
 
