@@ -46,17 +46,12 @@ defmodule BrainF__k do
 
   def f__k(i), do: f__k({[], i}, {[], [0]}, 0)
 
-  def f__k({i, []}, d, x), do: {{i, []}, d, x}
+  def f__k({code, []}, data, ops), do: {:ok, {code, []}, data, ops}
 
   def f__k(i, d, x) do
     {i, d} = f__k_(fetch(i), i, d)
     x = x + 1
-
-    if x == 1_000_000 do
-      throw(:error)
-    end
-
-    f__k(i, d, x)
+    if x == 1_000_000, do: {:error, i, d, x}, else: f__k(i, d, x)
   end
 
   defp f__k_(?<, i, d), do: {forward(i), reverse(d)}

@@ -21,8 +21,8 @@ defmodule BrainF__kTest do
   end
 
   test "skips" do
-    assert BrainF__k.f__k([1, 2, 3]) == {{[3, 2, 1], []}, {[], [0]}, 3}
-    assert BrainF__k.f__k('hello') == {{'olleh', []}, {[], [0]}, 5}
+    assert BrainF__k.f__k([1, 2, 3]) == {:ok, {[3, 2, 1], []}, {[], [0]}, 3}
+    assert BrainF__k.f__k('hello') == {:ok, {'olleh', []}, {[], [0]}, 5}
   end
 
   test "hello world" do
