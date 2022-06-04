@@ -58,10 +58,11 @@ defmodule BrainF__k do
 
   def f__k({code, []}, data, ops), do: {:ok, {code, []}, data, ops}
 
+  def f__k(code, data, ops) when ops == @max_ops, do: {:error, code, data, ops}
+
   def f__k(code, data, ops) do
     {code, data} = f__k_(fetch(code), code, data)
-    ops = ops + 1
-    if ops == @max_ops, do: {:error, code, data, ops}, else: f__k(code, data, ops)
+    f__k(code, data, ops + 1)
   end
 
   defp f__k_(?<, code, data), do: {forward(code), reverse(data)}
