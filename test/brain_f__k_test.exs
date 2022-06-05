@@ -69,4 +69,26 @@ defmodule BrainF__kTest do
   test "error" do
     {:error, _, _, _} = BrainF__k.f__k('+[]')
   end
+
+  def abcxyz do
+    """
+    ,+. This program will 6 characters
+    ,+. For first 3 characters it will
+    ,+. print its successor
+    ,-. For last 3 characters it will
+    ,-. print its predicissor
+    ,-.
+    """
+  end
+
+  test "abcxyz" do
+    assert capture_io(
+             "abcxyz",
+             fn ->
+               abcxyz()
+               |> to_charlist()
+               |> BrainF__k.f__k()
+             end
+           ) == "bcdwxy"
+  end
 end
