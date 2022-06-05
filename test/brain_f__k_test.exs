@@ -96,9 +96,10 @@ defmodule BrainF__kTest do
     assert capture_io(
              "Conqueror of British Empire (CWE). All hail Idi Amin!!!",
              fn ->
-               british_empire()
-               |> to_charlist()
-               |> BrainF__k.f__k()
+               {:ok, _, _, 100_000} =
+                 british_empire()
+                 |> to_charlist()
+                 |> BrainF__k.f__k()
              end
            ) == "Co"
   end
