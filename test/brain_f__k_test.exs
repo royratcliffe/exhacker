@@ -166,4 +166,80 @@ defmodule BrainF__kTest do
     ,.,.
     """
   end
+
+  test "input 13" do
+    assert capture_io(
+             "Conqueror of British Empire (CWE). All hail Idi Amin!!!",
+             fn ->
+               {:error, _, _, 100_001} =
+                 input13()
+                 |> to_charlist()
+                 |> BrainF__k.f__k()
+             end
+           ) == "Cp"
+  end
+
+  def input13 do
+    """
+    This will contain excatly 100001 operations
+    Should result into proess kill
+    +++++
+    [>
+        ++++++++
+        [>
+            ++++++++++
+            [
+                >
+                ++++++++++++
+                >
+                ++++++++++++
+                >
+                ++++++++++++
+                >
+                +++++++++++
+                >
+                +++++++++++
+                <<<<<
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            <<<<<
+            <-
+        ]
+        <-
+    ]
+
+    ++++++++++++++
+    [
+        >
+        +++++++++++++++
+        <-
+    ]
+    >
+    [
+        -
+    ]
+    <
+    ,.,+.
+    """
+  end
 end
