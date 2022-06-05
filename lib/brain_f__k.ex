@@ -58,31 +58,31 @@ defmodule BrainF__k do
 
   def f__k({code, []}, data, ops), do: {:ok, {code, []}, data, ops}
 
-  def f__k(code, data, ops) when ops == @max_ops, do: {:error, code, data, ops}
+  def f__k(code, data, ops) when ops > @max_ops, do: {:error, code, data, ops}
 
   def f__k(code, data, ops) do
-    {code, data} = f__k_(fetch(code), code, data)
-    f__k(code, data, ops + 1)
+    {code, data, ops} = f__k_(fetch(code), code, data, ops)
+    f__k(code, data, ops)
   end
 
-  defp f__k_(?<, code, data), do: {forward(code), reverse(data)}
-  defp f__k_(?>, code, data), do: {forward(code), forward_inf(data, 0)}
+  defp f__k_(?<, code, data, ops), do: {forward(code), reverse(data), ops + 1}
+  defp f__k_(?>, code, data, ops), do: {forward(code), forward_inf(data, 0), ops + 1}
 
-  defp f__k_(?[, code, data) do
+  defp f__k_(?[, code, data, ops) do
     {case fetch(data) do
        0 -> forward(code, ?])
        _ -> forward(code)
-     end, data}
+     end, data, ops + 1}
   end
 
-  defp f__k_(?], code, data) do
+  defp f__k_(?], code, data, ops) do
     {case fetch(data) do
        0 -> forward(code)
        _ -> reverse(code, ?[)
-     end, data}
+     end, data, ops + 1}
   end
 
-  defp f__k_(?+, code, data) do
+  defp f__k_(?+, code, data, ops) do
     {forward(code),
      store(
        data,
@@ -90,10 +90,10 @@ defmodule BrainF__k do
          255 -> 0
          xx -> xx + 1
        end
-     )}
+     ), ops + 1}
   end
 
-  defp f__k_(?-, code, data) do
+  defp f__k_(?-, code, data, ops) do
     {forward(code),
      store(
        data,
@@ -101,25 +101,25 @@ defmodule BrainF__k do
          0 -> 255
          xx -> xx - 1
        end
-     )}
+     ), ops + 1}
   end
 
-  defp f__k_(?., code, data) do
+  defp f__k_(?., code, data, ops) do
     :ok =
       [fetch(data)]
       |> to_string()
       |> IO.write()
 
-    {forward(code), data}
+    {forward(code), data, ops + 1}
   end
 
-  defp f__k_(?,, code, data) do
+  defp f__k_(?,, code, data, ops) do
     [xx] =
       IO.read(1)
       |> to_charlist()
 
-    {forward(code), store(data, xx)}
+    {forward(code), store(data, xx), ops + 1}
   end
 
-  defp f__k_(_, code, data), do: {forward(code), data}
+  defp f__k_(_, code, data, ops), do: {forward(code), data, ops}
 end
