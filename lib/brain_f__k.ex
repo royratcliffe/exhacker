@@ -29,23 +29,41 @@ defmodule BrainF__k do
   Fast-forwards the tape until matching fetch.
   Fails with error if no match.
   """
-  @spec forward(tape(), any) :: tape()
-  def forward(t0, h) do
+  @spec forward(tape(), any, any, number) :: tape()
+  def forward(t0, h0, h, l \\ 0) do
     t = forward(t0)
 
     case fetch(t) do
-      ^h -> t
-      _ -> forward(t, h)
+      ^h0 ->
+        forward(t, h0, h, l + 1)
+
+      ^h ->
+        case l do
+          0 -> t
+          _ -> forward(t, h0, h, l - 1)
+        end
+
+      _ ->
+        forward(t, h0, h, l)
     end
   end
 
-  @spec reverse(tape(), any) :: tape()
-  def reverse(t0, h) do
+  @spec reverse(tape(), any, any, number) :: tape()
+  def reverse(t0, h0, h, l \\ 0) do
     t = reverse(t0)
 
     case fetch(t) do
-      ^h -> t
-      _ -> reverse(t, h)
+      ^h0 ->
+        reverse(t, h0, h, l + 1)
+
+      ^h ->
+        case l do
+          0 -> t
+          _ -> reverse(t, h0, h, l - 1)
+        end
+
+      _ ->
+        reverse(t, h0, h, l)
     end
   end
 
@@ -70,7 +88,7 @@ defmodule BrainF__k do
 
   defp f__k_(?[, code, data, ops) do
     {case fetch(data) do
-       0 -> forward(code, ?])
+       0 -> forward(code, ?[, ?])
        _ -> forward(code)
      end, data, ops + 1}
   end
@@ -78,7 +96,7 @@ defmodule BrainF__k do
   defp f__k_(?], code, data, ops) do
     {case fetch(data) do
        0 -> forward(code)
-       _ -> reverse(code, ?[)
+       _ -> reverse(code, ?], ?[)
      end, data, ops + 1}
   end
 
