@@ -91,4 +91,78 @@ defmodule BrainF__kTest do
              end
            ) == "bcdwxy"
   end
+
+  test "British empire" do
+    assert capture_io(
+             "Conqueror of British Empire (CWE). All hail Idi Amin!!!",
+             fn ->
+               british_empire()
+               |> to_charlist()
+               |> BrainF__k.f__k()
+             end
+           ) == "Co"
+  end
+
+  def british_empire do
+    """
+    This will contain excatly 10^5 operations
+    +++++
+    [>
+        ++++++++
+        [>
+            ++++++++++
+            [
+                >
+                ++++++++++++
+                >
+                ++++++++++++
+                >
+                ++++++++++++
+                >
+                +++++++++++
+                >
+                +++++++++++
+                <<<<<
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            >
+            [
+                -
+            ]
+            <<<<<
+            <-
+        ]
+        <-
+    ]
+
+    ++++++++++++++
+    [
+        >
+        +++++++++++++++
+        <-
+    ]
+    >
+    [
+        -
+    ]
+    <
+    ,.,.
+    """
+  end
 end
