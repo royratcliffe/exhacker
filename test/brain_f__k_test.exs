@@ -288,4 +288,16 @@ defmodule BrainF__kTest do
     ,.,+.
     """
   end
+
+  test "eof" do
+    assert capture_io(
+             "",
+             fn ->
+               {:ok, _, _, _} =
+                 ",."
+                 |> to_charlist()
+                 |> BrainF__k.f__k()
+             end
+           ) == "\0"
+  end
 end

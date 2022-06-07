@@ -133,8 +133,10 @@ defmodule BrainF__k do
 
   defp f__k_(?,, code, data, ops) do
     [xx] =
-      IO.read(1)
-      |> to_charlist()
+      case IO.read(1) do
+        :eof -> [0]
+        s -> to_charlist(s)
+      end
 
     {forward(code), store(data, xx), ops + 1}
   end
