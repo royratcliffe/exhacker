@@ -1,4 +1,5 @@
 defmodule ExHacker do
+  def mat_dim([]), do: {0, 0}
   def mat_dim([v0 | v]), do: mat_dim(v, length(v0), 1)
 
   @doc """
