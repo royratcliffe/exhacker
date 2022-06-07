@@ -49,21 +49,21 @@ defmodule BrainF__k do
   end
 
   @spec reverse(tape(), any, any, number) :: tape()
-  def reverse(t0, nest, h, skip \\ 0) do
+  def reverse(t0, h, nest, skip \\ 0) do
     t = reverse(t0)
 
     case fetch(t) do
-      ^nest ->
-        reverse(t, nest, h, skip + 1)
-
       ^h ->
         case skip do
           0 -> t
-          _ -> reverse(t, nest, h, skip - 1)
+          _ -> reverse(t, h, nest, skip - 1)
         end
 
+      ^nest ->
+        reverse(t, h, nest, skip + 1)
+
       _ ->
-        reverse(t, nest, h, skip)
+        reverse(t, h, nest, skip)
     end
   end
 
@@ -96,7 +96,7 @@ defmodule BrainF__k do
   defp f__k_(?], code, data, ops) do
     {case fetch(data) do
        0 -> forward(code)
-       _ -> reverse(code, ?], ?[)
+       _ -> reverse(code, ?[, ?])
      end, data, ops + 1}
   end
 
