@@ -34,14 +34,14 @@ defmodule BrainF__k do
     t = forward(t0)
 
     case fetch(t) do
-      ^nest ->
-        forward(t, h, nest, skip + 1)
-
       ^h ->
         case skip do
           0 -> t
           _ -> forward(t, h, nest, skip - 1)
         end
+
+      ^nest ->
+        forward(t, h, nest, skip + 1)
 
       _ ->
         forward(t, h, nest, skip)
