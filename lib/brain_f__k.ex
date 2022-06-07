@@ -30,21 +30,21 @@ defmodule BrainF__k do
   Fails with error if no match.
   """
   @spec forward(tape(), any, any, number) :: tape()
-  def forward(t0, nest, h, skip \\ 0) do
+  def forward(t0, h, nest, skip \\ 0) do
     t = forward(t0)
 
     case fetch(t) do
       ^nest ->
-        forward(t, nest, h, skip + 1)
+        forward(t, h, nest, skip + 1)
 
       ^h ->
         case skip do
           0 -> t
-          _ -> forward(t, nest, h, skip - 1)
+          _ -> forward(t, h, nest, skip - 1)
         end
 
       _ ->
-        forward(t, nest, h, skip)
+        forward(t, h, nest, skip)
     end
   end
 
@@ -88,7 +88,7 @@ defmodule BrainF__k do
 
   defp f__k_(?[, code, data, ops) do
     {case fetch(data) do
-       0 -> forward(code, ?[, ?])
+       0 -> forward(code, ?], ?[)
        _ -> forward(code)
      end, data, ops + 1}
   end
